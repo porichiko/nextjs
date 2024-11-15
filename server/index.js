@@ -17,7 +17,7 @@ const interestRateRoute = require('./routes/interestRate'); // 추가된 부분
 app.use('/api/fear-greed', fearGreedRoute);
 app.use('/api/health', healthCheckRoute);
 app.use('/api/vix', vixRoute);
-app.use(interestRateRoute); // 추가된 부분
+app.use('/api/interest-rate', interestRateRoute);
 
 // 서버 실행
 app.listen(PORT, () => {

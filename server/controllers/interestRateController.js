@@ -1,21 +1,28 @@
-// interestRateController.js
-const yahooFinance = require('yahoo-finance2').default;
-
-const getInterestRateData = async (req, res) => {
+const getFedFundsRate = async (req, res) => {
     try {
-        // ^IRX 데이터 가져오기 (13주 국채 수익률)
-        const irxData = await yahooFinance.quote("^IRX");
+        // 동적으로 node-fetch import
+        const fetch = (await import('node-fetch')).default;
+
+        const apiKey = '45fa33fc0a4a45a22eca61744cfecb85';
+        const url = `https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key=${apiKey}&file_type=json`;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("FRED API 요청 실패");
+        }
+
+        const data = await response.json();
+        const latestObservation = data.observations[data.observations.length - 1];
         const interestRate = {
-            symbol: irxData.symbol,
-            rate: irxData.regularMarketPrice, // 현재 금리 (단위: %)
-            change: irxData.regularMarketChangePercent, // 변동률
+            date: latestObservation.date,
+            rate: parseFloat(latestObservation.value),
         };
 
         res.status(200).json({ interestRate });
     } catch (err) {
-        console.error("금리 데이터 로드 중 오류:", err);
+        console.error("데이터 로드 중 오류:", err.message);
         res.status(500).json({ error: err.message });
     }
 };
 
-module.exports = { getInterestRateData };
+module.exports = { getFedFundsRate };
