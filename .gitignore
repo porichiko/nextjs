@@ -18,10 +18,6 @@ Thumbs.db
 front/.next/
 front/out/
 front/node_modules/
-front/.env
-front/.env.local
-front/.env.*.local
-front/next-env.d.ts
 front/.next/cache
 front/.vercel/
 front/.firebase/
@@ -33,9 +29,6 @@ front/postcss.config.js
 
 # Server (server 폴더)
 server/node_modules/
-server/.env
-server/.env.local
-server/.env.*.local
 server/logs/
 server/debug.log
 
